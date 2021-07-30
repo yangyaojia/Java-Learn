@@ -14,6 +14,7 @@ mvn assembly:assembly
 ```
 java -jar ./xxxx.jar
 ```
+*更改了复制方式，使用文件管道复制*
 
 ## 【2】 英雄联盟角色查询程序
 
@@ -24,6 +25,7 @@ mvn assembly:assembly
 ```
 生成的 `jar` 文件位于 `target` 文件夹下
 
+*需要lombok支持*
 
 ### 运行
 ```

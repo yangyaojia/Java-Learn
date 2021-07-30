@@ -21,6 +21,36 @@ public class Hero implements Hero_inter, Serializable{
         this.value[3] = Integer.parseInt(strs[7]);
         this.Intro = strs[8];
     }
+    public boolean nameIs(String str){
+        return this.CNname.equalsIgnoreCase(str) || 
+               this.ENname.equalsIgnoreCase(str) ||
+               this.NikeName.equalsIgnoreCase(str);
+    }
+
+    public boolean allIs(String str){
+        return this.CNname.indexOf(str)!=-1 || 
+               this.ENname.indexOf(str)!=-1 || 
+               this.NikeName.indexOf(str)!=-1 ||
+               this.Intro.indexOf(str)!=-1;
+    }
+
+    public static int findName(Hero [] heros, String str, int l, int r, Hero [] ans){
+        int flag = 0;
+        for(int i = l; i <= r; i++){
+            if(heros[i].nameIs(str))
+                ans[flag++] = heros[i];
+        }
+        return flag;
+    }
+
+    public static int findAll(Hero [] heros, String str, int l, int r, Hero [] ans){
+        int flag = 0;
+        for(int i = l; i <= r; i++){
+            if(heros[i].allIs(str))
+                ans[flag++] = heros[i];
+        }
+        return flag;
+    }
     public void show(){
         System.out.printf("---------------------------------------\n");
         System.out.printf("名称：%s/%s\n称号：%s\n", this.CNname, this.ENname, this.NikeName);

@@ -1,34 +1,32 @@
 package com.introduce3g;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+// import org.slf4j.Logger;
+// import org.slf4j.LoggerFactory;
 import java.io.*;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Hello world!
  */
+
+@Slf4j
 public final class introduce3g {
-    public static final Logger LOGGER = LoggerFactory.getLogger(introduce3g.class);
+    // public static final Logger LOGGER = LoggerFactory.getLogger(introduce3g.class);
     public static Hero [] heros = new Hero[100];
     public static int num = 0;
     static void AskName() throws Exception {
         System.out.printf("请输入英雄名称：\n");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String str = br.readLine().strip();
-        int flag = 0;
-        for(int i = 1; i <= num; i++){
-            if(heros[i].CNname.equalsIgnoreCase(str) || 
-               heros[i].ENname.equalsIgnoreCase(str) || 
-               heros[i].NikeName.equalsIgnoreCase(str)){
-                   heros[i].show();
-                   flag ++;
-                   System.out.println("");
-            }
-        }
-        if(flag == 0) {
+        
+        Hero [] ans = new Hero[num];
+        int cnt = Hero.findName(heros, str, 1, num, ans);
+        
+        if(cnt == 0) {
             System.out.printf("没找到\n");
         }else{
-            System.out.printf("找到 %d 个结果\n", flag);
+            System.out.printf("找到 %d 个结果\n", cnt);
+            for(int i = 0; i < cnt; i++) ans[i].show();
         }
     }
 
@@ -43,22 +41,14 @@ public final class introduce3g {
         System.out.printf("请输入关键字：\n");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String str = br.readLine().strip();
-        int flag = 0;
-        for(int i = 1; i <= num; i++){
-            
-            if(heros[i].CNname.indexOf(str)!=-1 || 
-               heros[i].ENname.indexOf(str)!=-1 || 
-               heros[i].NikeName.indexOf(str)!=-1 ||
-               heros[i].Intro.indexOf(str)!=-1){
-                heros[i].show();
-                System.out.printf("\n");
-                flag ++;
-            }
-        }
-        if(flag == 0) {
+        Hero [] ans = new Hero[num];
+        int cnt = Hero.findAll(heros, str, 1, num, ans);
+        
+        if(cnt == 0) {
             System.out.printf("没找到\n");
         }else{
-            System.out.printf("找到 %d 个结果\n", flag);
+            System.out.printf("找到 %d 个结果\n", cnt);
+            for(int i = 0; i < cnt; i++) ans[i].show();
         }
     }
 
@@ -89,7 +79,8 @@ public final class introduce3g {
     }
     public static void main(String[] args) throws Exception{
 
-        LOGGER.info("Loading Data......");
+        log.info("Loading Data......");
+        // LOGGER.info("Loading Data......");
         File data = new File("./data.txt");
         while(!data.exists()){
             System.out.printf("未找到数据文件，请从新指定文件位置与名称！:");
